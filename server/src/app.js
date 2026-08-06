@@ -2,6 +2,10 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+import authRoutes from "./routes/auth.routes.js";
+import menuRoutes from "./routes/menu.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+
 const app = express();
 
 app.use(
@@ -23,5 +27,9 @@ app.get("/", (req, res) => {
         message: "Fast Food POS API Running",
     });
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/menu", menuRoutes);
+app.use("/api/orders", orderRoutes);
 
 export default app;
