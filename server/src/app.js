@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: "https://hayatfastfood-system.onrender.com", //http://localhost:5173
+        origin: "https://hayatfast-food-system-git-main-saifs-projects-b3a29b4e.vercel.app", //http://localhost:5173
         credentials: true,
     })
 );
