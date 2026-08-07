@@ -1,14 +1,20 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 
 const DashboardLayout = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     return (
-        <div className="flex min-h-screen bg-slate-100">
-            <Sidebar />
+        <div className="flex min-h-screen min-w-[320px] bg-white">
+            <Sidebar
+                isOpen={isSidebarOpen}
+                onClose={() => setIsSidebarOpen(false)}
+            />
 
             <div className="flex flex-1 flex-col">
-                <Navbar />
+                <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
 
                 <main className="flex-1 p-6">
                     <Outlet />

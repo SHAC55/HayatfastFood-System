@@ -7,7 +7,6 @@ const SalesHistory = () => {
   const { getOrders } = useSales();
 
   const [selectedOrder, setSelectedOrder] = useState(null);
-
   const [openReceipt, setOpenReceipt] = useState(false);
 
   useEffect(() => {
@@ -17,9 +16,12 @@ const SalesHistory = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Sales History</h1>
-
-        <p className="text-gray-500">View all previous orders.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+          Sales History
+        </h1>
+        <p className="text-sm text-neutral-500 sm:text-base">
+          View all previous orders.
+        </p>
       </div>
 
       <OrdersTable
