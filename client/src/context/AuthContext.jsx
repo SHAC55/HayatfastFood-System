@@ -4,58 +4,62 @@ import * as authService from "../services/auth.service";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = async (credentials) => {
-        const response = await authService.login(credentials);
+  const login = async (credentials) => {
+    const response = await authService.login(credentials);
 
-        setUser(response.data.data.user);
-        setIsAuthenticated(true);
+    setUser(response.data.data.user);
+    setIsAuthenticated(true);
 
-        return response.data;
-    };
+    return response.data;
+  };
 
-    const logout = async () => {
-        await authService.logout();
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  };
 
-        setUser(null);
-        setIsAuthenticated(false);
-    };
+  const getMe = async () => {
+    try {
+      const response = await authService.getMe();
 
-    const getMe = async () => {
-        try {
-            const response = await authService.getMe();
+      setUser(response.data.data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      setUser(null);
+      setIsAuthenticated(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            setUser(response.data.data);
-            setIsAuthenticated(true);
-        } catch (error) {
-            setUser(null);
-            setIsAuthenticated(false);
-        } finally {
-            setLoading(false);
-        }
-    };
+  useEffect(() => {
+    getMe();
+  }, []);
 
-    useEffect(() => {
-        getMe();
-    }, []);
-
-    return (
-        <AuthContext.Provider
-            value={{
-                user,
-                loading,
-                isAuthenticated,
-                login,
-                logout,
-                getMe,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        isAuthenticated,
+        login,
+        logout,
+        getMe,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
